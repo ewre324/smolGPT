@@ -9,7 +9,7 @@ from concurrent.futures import ProcessPoolExecutor
 from functools import partial
 import sentencepiece as spm
 import glob
-
+#PLACE THE FILE IN DATA/ RENAME IT TO TINY.TXT.
 from tokenizer import Tokenizer
 
 DATA_CACHE_DIR = Path("data")
@@ -38,13 +38,13 @@ def download() -> None:
 
     if not data_filename.exists():
         print("Downloading TinyStories dataset...")
-        download_file(data_url, str(data_filename))
+        #download_file(data_url, str(data_filename))
 
     data_dir = DATA_CACHE_DIR / "TinyStories_all_data"
     if not data_dir.exists():
         data_dir.mkdir(exist_ok=True)
         print("Extracting TinyStories dataset...")
-        os.system(f"tar -xvf {data_filename} -C {data_dir}")
+        #os.system(f"tar -xvf {data_filename} -C {data_dir}")
 
 
 def train_vocab(vocab_size: int) -> None:
@@ -54,12 +54,14 @@ def train_vocab(vocab_size: int) -> None:
     data_dir = DATA_CACHE_DIR / "TinyStories_all_data"
     shard_filenames = sorted(glob.glob(str(data_dir / "*.json")))
 
+    '''
     with open(tiny_file, "w") as f:
         for shard in shard_filenames[:10]:
             with open(shard, "r") as g:
                 data = json.load(g)
             for example in data:
                 f.write(example["story"].strip() + "\n")
+    '''
 
     spm.SentencePieceTrainer.train(
         input=str(tiny_file),
